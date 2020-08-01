@@ -198,7 +198,7 @@ class Instabot():
             wait.until(EC.element_to_be_clickable((By.CLASS_NAME, element_to_locate)))
         elif by == 'tag_name':
             wait.until(EC.element_to_be_clickable((By.TAG_NAME, element_to_locate)))
-
+        sleep(3)
 
 #main function
 def main():
