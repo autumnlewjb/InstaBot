@@ -23,6 +23,7 @@ class Instabot():
         self.password = password    #storig the password in class
         self.driver = webdriver.Firefox(executable_path = "./webdrivers/firefox_webdriver/geckodriver-v0.26.0-linux64/geckodriver") #this is the path of webdriver, here I used geckodriver-linux since I am using Firefox in linux. Change the path of webdriver according to your environment
         self.driver.get("https://instagram.com/")
+        self.driver.maximize_window()
         self._make_driver_wait("//input[@name=\"username\"]")
         self.driver.find_element_by_xpath("//input[@name=\"username\"]").send_keys(username)    
         self.driver.find_element_by_xpath("//input[@name=\"password\"]").send_keys(password)    
