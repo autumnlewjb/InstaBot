@@ -19,6 +19,9 @@ class Instabot():
 
     #function to login
     def __init__(self,username,password):
+        """function to login
+        input: username, password
+        output: will login to instagram"""
         self.username = username    #storing the username in class
         self.password = password    #storig the password in class
         self.driver = webdriver.Firefox(executable_path = "./webdrivers/firefox_webdriver/geckodriver-v0.26.0-linux64/geckodriver") #this is the path of webdriver, here I used geckodriver-linux since I am using Firefox in linux. Change the path of webdriver according to your environment
@@ -36,10 +39,11 @@ class Instabot():
 
     #function to cancel all the pending follow requests
     def cancel_sent_requests(self):
+        """function to cancel follow pending request"""
         self._make_driver_wait("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a")
         self.driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a").click()
-        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a")
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a").click()
+        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a")
+        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a").click()
         self._make_driver_wait("//div[@class = 'AFWDX']")
         self.driver.find_element_by_xpath("//button[@type = 'button']").click()
         self._make_driver_wait("//button[contains(text(), 'Privacy and Security')]")
@@ -80,6 +84,7 @@ class Instabot():
 
     #function which return the name from the list
     def _get_pending_names(self):
+        """function which will return names of pending folowers"""
         self._make_driver_wait("/html/body/div[1]/section/main/div/article/main")
         scroll_box = self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/article/main")
         self._make_driver_wait("-utLf", "class_name")
@@ -88,10 +93,11 @@ class Instabot():
 
     #function to get the names of unfollowers
     def get_unfollowers(self):
+        """function which will return list of unfollowers"""
         self._make_driver_wait("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a")
         self.driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a").click()
-        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a")
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a").click()
+        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a")
+        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a").click()
         self._make_driver_wait("//a[contains(@href,'/following')]")
         self.driver.find_element_by_xpath("//a[contains(@href,'/following')]").click()
         following = self._get_names()
@@ -99,6 +105,7 @@ class Instabot():
         self.driver.find_element_by_xpath("//a[contains(@href,'/followers')]").click()
         followers = self._get_names()
         not_following_back = [user for user in following if user not in followers]
+        sleep(2)
         print("\n****** Unfollowers ******\n")
         prev = " "
         count = 0
@@ -110,10 +117,11 @@ class Instabot():
         
     #function to get the names of fans
     def get_fans(self):
+        """function which will return list of fans"""
         self._make_driver_wait("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a")
         self.driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a").click()
-        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a")
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a").click()
+        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a")
+        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a").click()
         self._make_driver_wait("//a[contains(@href,'/following')]")
         self.driver.find_element_by_xpath("//a[contains(@href,'/following')]").click()
         following = self._get_names()
@@ -121,6 +129,7 @@ class Instabot():
         self.driver.find_element_by_xpath("//a[contains(@href,'/followers')]").click()
         followers = self._get_names()
         fans = [user for user in followers if user not in following]
+        sleep(2)
         print("\n****** Fans ******\n")
         prev = " "
         count = 0
@@ -132,6 +141,7 @@ class Instabot():
 
     #function which returns list of names
     def _get_names(self):
+        """function which will return list of names"""
         # TODO: The app might still change in future. If timeout exception happens again, just change the path of the elements below. 
         self._make_driver_wait("/html/body/div[4]/div/div/div[2]")
         scroll_box = self.driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]")
@@ -149,13 +159,15 @@ class Instabot():
         self._make_driver_wait("/html/body/div[4]/div/div/div[1]/div/div[2]/button")
         self.driver.find_element_by_xpath("/html/body/div[4]/div/div/div[1]/div/div[2]/button").click()
         return names
+        sleep(2)
     
     #function cancel unfollowers
     def cancel_unfollowers(self):
+        """function which will cancel unfollowers"""
         self._make_driver_wait("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a")
         self.driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a").click()
-        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a")
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a").click()
+        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a")
+        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a").click()
         self._make_driver_wait("//a[contains(@href,'/following')]")
         self.driver.find_element_by_xpath("//a[contains(@href,'/following')]").click()
         following = self._get_names()
@@ -174,22 +186,24 @@ class Instabot():
             print("\nDo you want to unfollow : {}".format(x))
             y = input("1. Yes\t2. No\nEnter the choice : ")
             if y == "1":
-                self._make_driver_wait("/html/body/div[1]/section/main/div/header/section/div[1]/div[2]/div/span/span[1]/button")
-                self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/header/section/div[1]/div[2]/div/span/span[1]/button").click()
+                self._make_driver_wait("vBF20", "class_name")
+                self.driver.find_element_by_class_name("vBF20").click()
                 self._make_driver_wait("//button[contains(text(), 'Unfollow')]")
                 self.driver.find_element_by_xpath("//button[contains(text(), 'Unfollow')]").click()
             else:
                 continue
 
     def Exit(self):
+        """function to logout"""
         self._make_driver_wait("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a")
         self.driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[1]/a").click()
-        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a")
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div[2]/div[1]/a").click()
+        self._make_driver_wait("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a")
+        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[3]/div[1]/div/div/div[2]/div[1]/div/div/a").click()
         self._make_driver_wait("/html/body/div[1]/section/main/div/header/section/div[1]/div/button")
         self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/header/section/div[1]/div/button").click()
         self._make_driver_wait("//button[contains(text(), 'Log Out')]")
         self.driver.find_element_by_xpath("//button[contains(text(), 'Log Out')]").click()
+        exit()
 
     def _make_driver_wait(self, element_to_locate, by='xpath'):
         wait = WebDriverWait(self.driver, 20)
